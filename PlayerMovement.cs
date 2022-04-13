@@ -23,5 +23,9 @@ public class PlayerMovement : MonoBehaviour
             {
             rb.velocity = new Vector2(rb.velocity.x, 14);
             }
+         if(rb.position.y < -15f)
+        {
+            FindObjectOfType<game_manager>().EndGame();
+        }    
     }
 }
