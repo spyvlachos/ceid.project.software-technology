@@ -5,8 +5,12 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 
 {
+
+    
+
+
     [Header("DialoguePartner Icon")]
-    [SerializeField]private GameObject dialoguePartnerIcon;
+    [SerializeField] private GameObject dialoguePartnerIcon;
 
     [Header("Ink JSON")]
     [SerializeField] private TextAsset inkJSON;
@@ -18,15 +22,18 @@ public class DialogueTrigger : MonoBehaviour
         maincharInRange = false;
         dialoguePartnerIcon.SetActive(false);
     }
-    
-    private  void Update()
+
+    private void Update()
     {
         if (maincharInRange)
         {
             dialoguePartnerIcon.SetActive(true);
-                        
+            if (Input.GetKeyDown("z"))
+            {
+                DialogueManager.GetInstance().EnterDialogue(inkJSON);
+            }
         }
-        else 
+        else
         {
             dialoguePartnerIcon.SetActive(false);
         }
@@ -39,7 +46,7 @@ public class DialogueTrigger : MonoBehaviour
         }
 
     }
-    
+
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.gameObject.tag == "Player")
@@ -47,6 +54,6 @@ public class DialogueTrigger : MonoBehaviour
             maincharInRange = false;
         }
 
-        
+
     }
 }
