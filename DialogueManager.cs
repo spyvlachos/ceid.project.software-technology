@@ -6,101 +6,107 @@ using Ink.Runtime;
 
 public class DialogueManager : MonoBehaviour
 {
-   [Header("Dialogue UI")]
+    [Header("Dialogue UI")]
 
-   [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private GameObject dialoguePanel;
 
-   [SerializeField] private TextMeshProUGUI dialogueText; 
+    [SerializeField] private TextMeshProUGUI dialogueText;
 
-   [Header("Choices UI")]
+    [Header("Choices UI")]
 
-   [SerializeField] private GameObject[] choices;
-   
-   private TextMeshProUGUI[] choicesText;
+    [SerializeField] private GameObject[] choices;
 
-   private Story currentStory;
+    private TextMeshProUGUI[] choicesText;
 
-   private bool dialogueIsOpen;
+    private Story currentStory;
 
-   private static DialogueManager instance;
-  
-   
+    private bool dialogueIsOpen;
 
-   private void Awake()
-   {
-       instance = this;
-
-   }
-
-   public static DialogueManager GetInstance()
-   {
-       return instance;
-   }
-
-   private void Start()
-   {
-       dialogueIsOpen = false;
-       dialoguePanel.SetActive(false);
-
-       choicesText = new TextMeshProUGUI[choices.Length];
-       int numberofChoices = 0;
-       foreach (GameObject choice in choices)
-       {
-           choicesText[numberofChoices] = choice.GetComponentInChildren<TextMeshProUGUI>();
-           numberofChoices++;
-       }
-   }
-
-   private void Update()
-   {
-       if (!dialogueIsOpen)
-       {
-           return;
-       }
-
-   }
+    private static DialogueManager instance;
 
 
 
-   public void EnterDialogue(TextAsset inkJSON)
-   {
-       currentStory = new Story(inkJSON.text);
-       dialogueIsOpen = true;
-       dialoguePanel.SetActive(true);
+    private void Awake()
+    {
+        instance = this;
 
-       ContinueStory();
-   
-   }
+    }
 
-   private void ExitDialogue()
-   {
-       dialogueIsOpen = false;
-       dialoguePanel.SetActive(false);
-       dialogueText.text = "";
-   }
+    public static DialogueManager GetInstance()
+    {
+        return instance;
+    }
 
-   private void ContinueStory()
-   {
-       if (currentStory.canContinue)
-       {
-           dialogueText.text = currentStory.Continue();           
-       }
-       else
-       {
-           ExitDialogue();
-       }
+    private void Start()
+    {
+        dialogueIsOpen = false;
+        dialoguePanel.SetActive(false);
 
-   }
+        choicesText = new TextMeshProUGUI[choices.Length];
+        int numberofChoices = 0;
+        foreach (GameObject choice in choices)
+        {
+            choicesText[numberofChoices] = choice.GetComponentInChildren<TextMeshProUGUI>();
+            numberofChoices++;
+        }
+    }
 
-   private void DisplayChoices()
-   {
-       List<Choice> currentChoices = currentStory.currentChoices;
+    private void Update()
+    {
+        if (!dialogueIsOpen)
+        {
+            return;
+        }
+        if (Input.GetKeyDown("c"))
+        {
+            ContinueStory();
+        }
+      if (Input.GetKeyDown("x"))
+        {
+            ExitDialogue();
+        }
 
-       if (currentChoices.Count > choices.Length)
-       {
 
-       }
-   }   
+    }
+    public void EnterDialogue(TextAsset inkJSON)
+    {
+        currentStory = new Story(inkJSON.text);
+        dialogueIsOpen = true;
+        dialoguePanel.SetActive(true);
 
-    
+        ContinueStory();
+
+    }
+
+    private void ExitDialogue()
+    {
+        dialogueIsOpen = false;
+        dialoguePanel.SetActive(false);
+        dialogueText.text = "";
+    }
+
+    private void ContinueStory()
+    {
+        if (currentStory.canContinue)
+        {
+            dialogueText.text = currentStory.Continue();
+        }
+        else
+        {
+            ExitDialogue();
+        }
+
+    }
+
+    private void DisplayChoices()
+    {
+        List<Choice> currentChoices = currentStory.currentChoices;
+
+        if (currentChoices.Count > choices.Length)
+        {
+
+        }
+    }
+
+
 }
