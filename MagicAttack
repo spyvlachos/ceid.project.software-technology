@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MagicAttack : Ability
+{
+    private Transform player1;
+    private GameObject magic;
+    public float movespeed = 3f;
+    private List<Transform> magiclist;
+    private float newmagicposition;
+    // Start is called before the first frame update
+    void Awake()
+    {
+        magicList = new List<Transform>();
+    }
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position = new Vector3(transform.position.x + movespeed, transform.position.y, transform.position.z);
+    }
+    
+    private void OnCollisionEnter2D(Collider2D collision)
+    {
+        Destroy(gameObject);
+    }
+  
+
+
+}
+
+
